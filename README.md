@@ -18,3 +18,4 @@ If you're having issues with running the json-server for the database, you will 
 # Run database
 npm run db
 ```
+First commit
