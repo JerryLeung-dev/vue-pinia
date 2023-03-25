@@ -1,17 +1,30 @@
 <script>
+import { useEventStore } from '../stores/EventStore'
+
 export default {
+  setup() {
+    const eventStore = useEventStore();
+    return {
+      eventStore
+    }
+  },
   props: ['id'],
   created() {
-    this.$store.dispatch('fetchEvent', this.id).catch(error => {
+    const existingEvent = this.eventStore.events.find(event => event.id = this.id);
+    if(existingEvent) this.eventStore.event = existingEvent;
+    else {
+      this.eventStore.fetchEvent(this.id).catch(error => {
       this.$router.push({
         name: 'ErrorDisplay',
         params: { error: error }
       })
     })
+    }
   },
   computed: {
     event() {
-      return this.$store.state.event
+      console.log(this.eventStore.event);
+      return this.eventStore.event
     }
   }
 }
